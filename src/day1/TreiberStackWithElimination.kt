@@ -3,7 +3,7 @@ package day1
 import kotlinx.atomicfu.*
 import java.util.concurrent.*
 
-class TreiberStackWithElimination<E> : Stack<E> {
+open class TreiberStackWithElimination<E> : Stack<E> {
     private val stack = TreiberStack<E>()
 
     // TODO: Try to optimize concurrent push and pop operations,
@@ -15,7 +15,7 @@ class TreiberStackWithElimination<E> : Stack<E> {
         stack.push(element)
     }
 
-    private fun tryPushElimination(element: E): Boolean {
+    protected open fun tryPushElimination(element: E): Boolean {
         TODO("Implement me!")
         // TODO: Choose a random cell in `eliminationArray`
         // TODO: and try to install the element there.
