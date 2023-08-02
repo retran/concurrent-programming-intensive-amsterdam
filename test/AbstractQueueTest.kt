@@ -17,6 +17,9 @@ abstract class AbstractQueueTest(
 
     @Operation
     fun dequeue() = queue.dequeue()
+
+    @Validate
+    fun validate() = queue.validate()
 }
 
 class IntQueueSequential {

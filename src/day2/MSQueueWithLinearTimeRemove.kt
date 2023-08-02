@@ -46,7 +46,7 @@ class MSQueueWithLinearTimeRemove<E> : QueueWithRemove<E> {
      * This is an internal function for tests.
      * DO NOT CHANGE THIS CODE.
      */
-    override fun checkNoRemovedElements() {
+    override fun validate() {
         check(tail.value.next.value == null) {
             "tail.next must be null"
         }

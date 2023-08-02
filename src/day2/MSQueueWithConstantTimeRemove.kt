@@ -46,7 +46,7 @@ class MSQueueWithConstantTimeRemove<E> : QueueWithRemove<E> {
      * This is an internal function for tests.
      * DO NOT CHANGE THIS CODE.
      */
-    override fun checkNoRemovedElements() {
+    override fun validate() {
         check(head.value.prev.value == null) {
             "`head.prev` must be null"
         }
