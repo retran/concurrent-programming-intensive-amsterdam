@@ -62,6 +62,13 @@ class MSQueue<E> : Queue<E> {
         return value
     }
 
+    // FOR TEST PURPOSE, DO NOT CHANGE IT.
+    override fun validate() {
+        check(tail.value.next.value == null) {
+            "`tail.next` should be `null`"
+        }
+    }
+
     private class Node<E>(
         var element: E?
     ) {

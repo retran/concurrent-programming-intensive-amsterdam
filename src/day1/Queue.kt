@@ -12,4 +12,10 @@ interface Queue<E> {
      * returns `null` if the queue is empty.
      */
     fun dequeue(): E?
+
+    /**
+     * Validates the data structure state at the end of execution.
+     * FOR TEST PURPOSE ONLY.
+     */
+    fun validate() {}
 }

@@ -13,7 +13,7 @@ import kotlin.reflect.*
 abstract class TestBase(
     val sequentialSpecification: KClass<*>,
     val checkObstructionFreedom: Boolean = true,
-    val scenarios: Int = 100
+    val scenarios: Int = 150
 ) {
     @Test
     fun modelCheckingTest() = try {
