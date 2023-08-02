@@ -1,7 +1,7 @@
 package day1
 
-import kotlinx.atomicfu.*
-import java.util.concurrent.*
+import kotlinx.atomicfu.atomicArrayOfNulls
+import java.util.concurrent.ThreadLocalRandom
 
 open class TreiberStackWithElimination<E> : Stack<E> {
     private val stack = TreiberStack<E>()
@@ -16,7 +16,6 @@ open class TreiberStackWithElimination<E> : Stack<E> {
     }
 
     protected open fun tryPushElimination(element: E): Boolean {
-        TODO("Implement me!")
         // TODO: Choose a random cell in `eliminationArray`
         // TODO: and try to install the element there.
         // TODO: Wait `ELIMINATION_WAIT_CYCLES` loop cycles
@@ -24,16 +23,55 @@ open class TreiberStackWithElimination<E> : Stack<E> {
         // TODO: element. If so, clean the cell and finish,
         // TODO: returning `true`. Otherwise, move the cell
         // TODO: to the empty state and return `false`.
+
+        val index = randomCellIndex()
+
+        if (!eliminationArray[index].compareAndSet(CELL_STATE_EMPTY, element))
+        {
+            return false
+        }
+
+        for (i in 0..ELIMINATION_WAIT_CYCLES) {
+            if (eliminationArray[index].compareAndSet(CELL_STATE_RETRIEVED, CELL_STATE_EMPTY)) {
+                return true
+            }
+        }
+
+        if (!eliminationArray[index].compareAndSet(element, CELL_STATE_EMPTY))
+        {
+            if (eliminationArray[index].compareAndSet(CELL_STATE_RETRIEVED, CELL_STATE_EMPTY))
+            {
+                return true
+            }
+
+            return false
+        }
+
+        return false
     }
 
     override fun pop(): E? = tryPopElimination() ?: stack.pop()
 
     private fun tryPopElimination(): E? {
-        TODO("Implement me!")
         // TODO: Choose a random cell in `eliminationArray`
         // TODO: and try to retrieve an element from there.
         // TODO: On success, return the element.
         // TODO: Otherwise, if the cell is empty, return `null`.
+
+        val index = randomCellIndex()
+        val value = eliminationArray[randomCellIndex()].value
+
+        if (value == CELL_STATE_RETRIEVED || value == CELL_STATE_EMPTY)
+        {
+            return null
+        }
+
+        if (!eliminationArray[index].compareAndSet(value, CELL_STATE_RETRIEVED))
+        {
+            return null
+        }
+
+        return value as E
     }
 
     private fun randomCellIndex(): Int =
